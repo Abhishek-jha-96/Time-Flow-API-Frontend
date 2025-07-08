@@ -1,12 +1,13 @@
+import { Suspense } from 'react'
 import './App.css'
-import TaskTable from './components/organism/TaskTable'
+import Hero from './components/organism/Hero'
 
 function App() {
 
   return (
-    <main>
-      <TaskTable />
-    </main>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Hero />
+    </Suspense>
   )
 }
 

@@ -12,6 +12,6 @@ export interface ITaskTableProps {
 
 export interface TaskState {
   tasks: ITaskTableProps[]
-  addTask: (task: ITaskTableProps) => void
+  addTasks: (task: ITaskTableProps[]) => void
   clearTasks: () => void
 }

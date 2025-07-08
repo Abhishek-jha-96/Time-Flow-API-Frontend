@@ -3,6 +3,6 @@ import type { TaskState } from '../constants/Interfaces'
 
 export const useTaskStore = create<TaskState>(set => ({
   tasks: [],
-  addTask: (task) => set(state => ({ tasks: [...state.tasks, task] })),
+  addTasks: (newTasks) => set(state => ({ tasks: [...state.tasks, ...newTasks] })),
   clearTasks: () => set({ tasks: [] }),
 }))

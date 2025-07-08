@@ -4,14 +4,25 @@
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useReducer } from 'react'
+import { useEffect, useReducer } from 'react'
 import type { ITaskTableProps } from '../../constants/Interfaces'
 import { useTaskStore } from '../../stores/taskStore'
+import { fetchTasks } from '@/lib/api'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 
 export default function TaskTable() {
   const tasks = useTaskStore(state => state.tasks)
   const rerender = useReducer(() => ({}), {})[1]
+  const { data } = useSuspenseQuery({
+    queryKey: ['tasks'],
+    queryFn: fetchTasks,
+  })
+  const setTasks = useTaskStore(state => state.addTasks)
+
+  useEffect(() => {
+    setTasks(data)
+  }, [data, setTasks])
 
 
   const columnHelper = createColumnHelper<ITaskTableProps>()
