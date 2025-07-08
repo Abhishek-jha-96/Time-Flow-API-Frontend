@@ -24,7 +24,16 @@ export function LoginForm({
 
   const mutation = useMutation({
     mutationFn: loginUser,
-    onSuccess: () => setLoggedIn(true),
+    onSuccess: (data) => {
+      const token = data.access_token
+
+      if (token) {
+        localStorage.setItem('access_token', token)
+        setLoggedIn(true)
+      } else {
+        console.warn('No access_token found in response:', data)
+      }
+    },
     onError: (error) => {
       console.error('Login failed:', error)
     },
