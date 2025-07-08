@@ -53,3 +53,19 @@ VITE_API_URL=http://localhost:8000
 ```bash
 npm run dev
 ```
+
+## Demo
+- **Task Admin**
+![Task Admin](./public/table_admin.png)
+
+- **Login**
+![Login](./public/table_1.png)
+
+- **Table**
+![Table](./public/table_2.png)
+
+- **Create Task**
+![Create Task](./public/table_3.png)
+
+- **Update Task**
+![Update Task](./public/table_4.png)
