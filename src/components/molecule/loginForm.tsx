@@ -25,10 +25,10 @@ export function LoginForm({
   const mutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      const token = data.access_token
+      const token = data.access
 
       if (token) {
-        localStorage.setItem('access_token', token)
+        localStorage.setItem('token', token)
         setLoggedIn(true)
       } else {
         console.warn('No access_token found in response:', data)
@@ -83,12 +83,6 @@ export function LoginForm({
                   {mutation.isPending ? 'Logging in...' : 'Login'}
                 </Button>
               </div>
-            </div>
-            <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{' '}
-              <a href="#" className="underline underline-offset-4">
-                Sign up
-              </a>
             </div>
           </form>
         </CardContent>

@@ -4,17 +4,25 @@
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useEffect, useReducer } from 'react'
+import { useEffect } from 'react'
 import type { ITaskTableProps } from '../../constants/Interfaces'
 import { useTaskStore } from '../../stores/taskStore'
 import { fetchTasks } from '@/lib/api'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { usePrefetchQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { CreateTaskForm } from '../molecule/CreateTaskForm'
+import { UpdateTaskForm } from '../molecule/UpdateTaskForm'
 
 
 export default function TaskTable() {
   const tasks = useTaskStore(state => state.tasks)
-  const rerender = useReducer(() => ({}), {})[1]
-  const { data } = useSuspenseQuery({
+
+  usePrefetchQuery({
+      queryKey: ['task'],
+      queryFn: fetchTasks,
+      staleTime: 60 * 1000,
+    })
+
+  const { data } = useSuspenseQuery({ 
     queryKey: ['tasks'],
     queryFn: fetchTasks,
   })
@@ -28,6 +36,11 @@ export default function TaskTable() {
   const columnHelper = createColumnHelper<ITaskTableProps>()
 
   const columns = [
+    columnHelper.accessor('id', {
+      header: 'ID',
+      cell: info => info.getValue(),
+      footer: info => info.column.id,
+    }),
   columnHelper.accessor('title', {
     header: 'Title',
     cell: info => info.getValue(),
@@ -97,8 +110,8 @@ export default function TaskTable() {
 
   return (
   <div className="p-4">
-    <div className="overflow-x-auto">
-      <table className="min-w-full border border-gray-300 divide-y divide-gray-200 text-sm md:text-base">
+    <div className="overflow-x-auto min-w-2xs max-w-4xl">
+      <table className="min-w-2xs max-w-xl border border-gray-300 divide-y divide-gray-200 text-sm md:text-base">
         <thead className="bg-gray-100">
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
@@ -138,13 +151,9 @@ export default function TaskTable() {
       </table>
     </div>
 
-    <div className="mt-4 flex justify-center">
-      <button
-        onClick={() => rerender()}
-        className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded shadow"
-      >
-        Rerender
-      </button>
+    <div className="mt-4 flex justify-center gap-2">
+      <CreateTaskForm />
+      <UpdateTaskForm />
     </div>
   </div>
 );
