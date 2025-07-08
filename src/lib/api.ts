@@ -12,7 +12,7 @@ export const fetchUser = async () => {
   return res.data
 }
 
-export const loginUser = async (credentials: { username: string; password: string }) => {
+export const loginUser = async (credentials: { email: string; password: string }) => {
   const res = await axios.post('/api/login', credentials)
   return res.data
 }

@@ -15,3 +15,8 @@ export interface TaskState {
   addTasks: (task: ITaskTableProps[]) => void
   clearTasks: () => void
 }
+
+export interface LoginFormInputs {
+  email: string
+  password: string
+}
